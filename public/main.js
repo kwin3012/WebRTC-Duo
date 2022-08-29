@@ -2,7 +2,7 @@ let queryString = window.location.search
 let urlParams = new URLSearchParams(queryString)
 let roomId = urlParams.get('room')
 if(!roomId){
-    window.location = 'lobby.html'
+    window.location = 'index.html'
 }
 
 let divSelectRoom = document.getElementById('selectRoom')
