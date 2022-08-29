@@ -5,12 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebRTC Training</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='index.css'>
 </head>
 <body>
     <h1>WebRTC Call</h1>
     <div id="consultingRoom"  style="display: none">
         <video id="localVideo" autoplay playsinline></video>
         <video id="remoteVideo" autoplay playsinline></video>
+    </div>
+
+    <div id="controls">
+        <div class="control-container" id="camera-btn">
+            <img src="icons/camera.png" />
+        </div>
+
+        <div class="control-container" id="mic-btn">
+            <img src="icons/mic.png" />
+        </div>
+
+        <a href="lobby.html">
+            <div class="control-container" id="leave-btn">
+                <img src="icons/phone.png" />
+            </div>
+        </a>
+
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
