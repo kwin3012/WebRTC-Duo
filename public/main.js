@@ -1,3 +1,10 @@
+let queryString = window.location.search
+let urlParams = new URLSearchParams(queryString)
+let roomId = urlParams.get('room')
+if(!roomId){
+    window.location = 'lobby.html'
+}
+
 let divSelectRoom = document.getElementById('selectRoom')
 let divConsultingRoom = document.getElementById('consultingRoom')
 let inputRoomNumber = document.getElementById('roomNumber')
@@ -21,16 +28,9 @@ const streamConstraints = {
 
 const socket = io()
 
-btnGoRoom.onclick = () => {
-    if(inputRoomNumber.value === ''){
-        alert('please enter a valid room name!')
-    } else {
-        roomNumber = inputRoomNumber.value
-        socket.emit('join',roomNumber)
-        divSelectRoom.style = 'dispaly:none'
-        divConsultingRoom.style = 'display:block'
-    }
-}
+roomNumber = roomId
+socket.emit('join',roomNumber)
+divConsultingRoom.style = 'display:block'
 
 socket.on('created',room => {
     navigator.mediaDevices.getUserMedia(streamConstraints)

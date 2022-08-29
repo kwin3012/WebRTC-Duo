@@ -8,14 +8,9 @@
 </head>
 <body>
     <h1>WebRTC Call</h1>
-    <div id="selectRoom">
-        <label for="roomName"> Type room name </label>
-        <input type="text" name="roomName" id="roomNumber">
-        <button id="goRoom">Go</button>
-    </div>
     <div id="consultingRoom"  style="display: none">
-        <video id="localVideo" autoplay></video>
-        <video id="remoteVideo" autoplay></video>
+        <video id="localVideo" autoplay playsinline></video>
+        <video id="remoteVideo" autoplay playsinline></video>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
