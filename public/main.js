@@ -12,6 +12,9 @@ let btnGoRoom = document.getElementById('goRoom')
 let localVideo = document.getElementById('localVideo')
 let remoteVideo = document.getElementById('remoteVideo')
 
+let btnSendMessage = document.getElementById("sendMessage")
+const texts = document.getElementById("texts");
+
 let roomNumber, localStream, remoteStream, rtcPeerConnection, isCaller
 
 const iceServers = {
@@ -30,7 +33,21 @@ const socket = io()
 
 roomNumber = roomId
 socket.emit('join',roomNumber)
-divConsultingRoom.style = 'display:block'
+divConsultingRoom.style = 'display:block';
+
+
+btnSendMessage.onclick = () => {
+    if(dataChannelSend.value === ''){
+        alert('please type a call name!')
+    } else {
+        // for sending message
+        dataChannel.send(dataChannelSend.value)
+        let p = document.createElement('p');
+        p.innerHTML = "<strong>you:</strong> " + dataChannelSend.value
+        texts.appendChild(p)
+        dataChannelSend.value = ""
+    }
+}
 
 socket.on('created',room => {
     navigator.mediaDevices.getUserMedia(streamConstraints)
@@ -63,6 +80,15 @@ socket.on('ready',() => {
         rtcPeerConnection.ontrack = onAddStream
         rtcPeerConnection.addTrack(localStream.getTracks()[0],localStream)
         rtcPeerConnection.addTrack(localStream.getTracks()[1],localStream)
+
+        // for sending message
+        dataChannel = rtcPeerConnection.createDataChannel(roomNumber)
+        dataChannel.onmessage = event => { 
+            let p = document.createElement('p');
+            p.innerHTML = "<strong>your friend:</strong> " + event.data;
+            texts.appendChild(p);
+        }
+
         rtcPeerConnection.createOffer()
         .then(sessionDescription => {
             rtcPeerConnection.setLocalDescription(sessionDescription)
@@ -75,6 +101,8 @@ socket.on('ready',() => {
         .catch(err=>{
             console.log('there is an error',err)
         })
+
+        
     }
 })
 
@@ -98,6 +126,15 @@ socket.on('offer',(event) => {
         .catch(err=>{
             console.log('there is an error',err)
         })
+
+        rtcPeerConnection.ondatachannel = event => {
+            dataChannel = event.channel
+            dataChannel.onmessage = event => { 
+                let p = document.createElement('p');
+                p.innerHTML = "<strong>your friend:</strong> " + event.data
+                texts.appendChild(p)
+            }
+        }
     }
 })
 
@@ -112,6 +149,10 @@ socket.on('candidate',event=>{
     })
     rtcPeerConnection.addIceCandidate(candidate)
 }) 
+
+socket.on('user-left',()=>{
+    document.getElementById('remoteVideo').style = 'display:none'
+})
 
 
 function onAddStream(event){
