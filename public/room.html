@@ -14,13 +14,47 @@
         <video id="remoteVideo" autoplay playsinline></video>
     </div>
 
-    <div id="texts">
-    </div>
+      <section class="msger">
+        <header class="msger-header">
+                Chat Box
+        </header>
+      
+        <main id="msger-chat">
+          <div class="msg left-msg">
+      
+            <div class="msg-bubble">
+              <div class="msg-info">
+                <div class="msg-info-name">Your Friend</div>
+              </div>
+      
+              <div class="msg-text">
+                Hi, welcome to SimpleChat! Go ahead and send me a message. 😄
+              </div>
+            </div>
+          </div>
+      
+          <div class="msg right-msg">
+      
+            <div class="msg-bubble">
+              <div class="msg-info">
+                <div class="msg-info-name">You</div>
+            
+              </div>
+      
+              <div class="msg-text">
+                You can change your name in JS section!
+              </div>
+            </div>
+          </div>
+        </main>
+      
+        <div class="msger-inputarea">
+          <textarea id="dataChannelSend" type="text" class="msger-input" placeholder="Enter your message..."></textarea>
+          <button  id="sendMessage" class="msger-send-btn">Send</button>
+        </div>
+      </section>
+    
 
-    <div>
-        <textarea id="dataChannelSend" fullscreen="true" placeholder="write your message here..."></textarea>
-        <button id="sendMessage">Send Message</button>
-    </div>
 
     <div id="controls">
         <div class="control-container" id="camera-btn">

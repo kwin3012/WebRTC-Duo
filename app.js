@@ -54,12 +54,6 @@ io.on('connection',socket => {
     socket.on('answer',event =>{
         socket.broadcast.to(event.room).emit('answer',event.sdp)
     })
-
-    socket.on('disconnect',() =>{
-        console.log("disconnection")
-        socket.to(room).broadcast.emit('user-left')
-    })
-
 })
 
 

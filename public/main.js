@@ -13,9 +13,9 @@ let localVideo = document.getElementById('localVideo')
 let remoteVideo = document.getElementById('remoteVideo')
 
 let btnSendMessage = document.getElementById("sendMessage")
-const texts = document.getElementById("texts");
+let texts = document.getElementById("msger-chat");
 
-let roomNumber, localStream, remoteStream, rtcPeerConnection, isCaller
+let roomNumber, localStream, remoteStream, rtcPeerConnection, isCaller, p;
 
 const iceServers = {
     'iceServer' : [
@@ -42,9 +42,18 @@ btnSendMessage.onclick = () => {
     } else {
         // for sending message
         dataChannel.send(dataChannelSend.value)
-        let p = document.createElement('p');
-        p.innerHTML = "<strong>you:</strong> " + dataChannelSend.value
-        texts.appendChild(p)
+
+         p = `<div class="msg right-msg">
+        <div class="msg-bubble">
+          <div class="msg-info">
+            <div class="msg-info-name">You</div>
+          </div>
+          <div class="msg-text">
+            ${dataChannelSend.value}
+          </div>
+        </div>
+      </div>`
+        texts.innerHTML += p;
         dataChannelSend.value = ""
     }
 }
@@ -84,9 +93,18 @@ socket.on('ready',() => {
         // for sending message
         dataChannel = rtcPeerConnection.createDataChannel(roomNumber)
         dataChannel.onmessage = event => { 
-            let p = document.createElement('p');
-            p.innerHTML = "<strong>your friend:</strong> " + event.data;
-            texts.appendChild(p);
+
+             p = `<div class="msg left-msg">
+                <div class="msg-bubble">
+                  <div class="msg-info">
+                    <div class="msg-info-name">Your Friend</div>
+                  </div>
+                  <div class="msg-text">
+                    ${event.data}
+                  </div>
+                </div>
+              </div>`
+              texts.innerHTML += p;
         }
 
         rtcPeerConnection.createOffer()
@@ -130,9 +148,19 @@ socket.on('offer',(event) => {
         rtcPeerConnection.ondatachannel = event => {
             dataChannel = event.channel
             dataChannel.onmessage = event => { 
-                let p = document.createElement('p');
-                p.innerHTML = "<strong>your friend:</strong> " + event.data
-                texts.appendChild(p)
+
+                p = `<div class="msg left-msg">
+                <div class="msg-bubble">
+                  <div class="msg-info">
+                    <div class="msg-info-name">Your Friend</div>
+                  </div>
+                  <div class="msg-text">
+                    ${event.data}
+                  </div>
+                </div>
+              </div>`
+
+              texts.innerHTML += p;
             }
         }
     }
@@ -150,7 +178,8 @@ socket.on('candidate',event=>{
     rtcPeerConnection.addIceCandidate(candidate)
 }) 
 
-socket.on('user-left',()=>{
+socket.on('user-left',() => {
+    console.log("some action needs to be taken.")
     document.getElementById('remoteVideo').style = 'display:none'
 })
 
