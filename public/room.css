@@ -1,20 +1,38 @@
-#controls{
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform:translateX(-50%);
-    display: flex;
-    gap: 1em;
+
+h1 {
+  text-align: center;
 }
 
+#consultingRoom{
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  text-align: center;
+  border: 2px solid black;
+}
+video {
+  padding: 10px;
+  height: 60%;
+  max-height: 300px;
+  max-width: 400px;
+  width:60%;
+}
+
+#controls{
+    padding-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: auto;
+    width: 40%;
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+}
 
 .control-container{
   background-color: rgb(179, 102, 249, .9);
   padding: 20px;
   border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
 }
 
@@ -27,9 +45,6 @@
     background-color: rgb(255,80,80, 1);
 }
 
-
-
-
 :root {
     --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     --msger-bg: #fff;
@@ -37,26 +52,25 @@
     --left-msg-bg: #ececec;
     --right-msg-bg: #579ffb;
   }
-  
-  /* body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: var(--body-bg);
-    font-family: Helvetica, sans-serif;
-  } */
+
+  .chat-box{
+    margin-left: auto;
+    margin-right: auto;
+  }
   
   .msger {
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
-    width: 100%;
+    width: 80%;
     max-width: 867px;
     margin: 25px 10px;
     height: calc(100% - 50px);
     border: var(--border);
     border-radius: 5px;
+
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .msger-header {
@@ -106,7 +120,6 @@
     margin-right: 10px;
     font-weight: bold;
   }
- 
   
   .left-msg .msg-bubble {
     border-bottom-left-radius: 0;

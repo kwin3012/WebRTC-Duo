@@ -9,11 +9,30 @@
 </head>
 <body>
     <h1>WebRTC Call</h1>
-    <div id="consultingRoom"  style="display: none">
-        <video id="localVideo" autoplay playsinline></video>
-        <video id="remoteVideo" autoplay playsinline></video>
+    <div id="consultingRoom">
+        <video id="localVideo" autoplay ></video>
+        <video id="remoteVideo" autoplay ></video> 
     </div>
 
+    <div id="controls">
+      
+      <div class="control-container" id="camera-btn">
+          <img src="icons/camera.png" />
+      </div>
+
+      <div class="control-container" id="mic-btn">
+          <img src="icons/mic.png" />
+      </div>
+
+      <a href="index.html">
+          <div class="control-container" id="leave-btn">
+              <img src="icons/phone.png" />
+          </div>
+      </a>
+
+  </div>
+
+  <div class="chat-box">
       <section class="msger">
         <header class="msger-header">
                 Chat Box
@@ -32,20 +51,6 @@
               </div>
             </div>
           </div>
-      
-          <div class="msg right-msg">
-      
-            <div class="msg-bubble">
-              <div class="msg-info">
-                <div class="msg-info-name">You</div>
-            
-              </div>
-      
-              <div class="msg-text">
-                ok trying...
-              </div>
-            </div>
-          </div>
         </main>
       
         <div class="msger-inputarea">
@@ -53,26 +58,9 @@
           <button  id="sendMessage" class="msger-send-btn">Send</button>
         </div>
       </section>
-    
-
-
-    <div id="controls">
-        <div class="control-container" id="camera-btn">
-            <img src="icons/camera.png" />
-        </div>
-
-        <div class="control-container" id="mic-btn">
-            <img src="icons/mic.png" />
-        </div>
-
-        <a href="index.html">
-            <div class="control-container" id="leave-btn">
-                <img src="icons/phone.png" />
-            </div>
-        </a>
 
     </div>
-
+  
     <script src="/socket.io/socket.io.js"></script>
     <script src="main.js"></script>
 </body>
