@@ -13,9 +13,10 @@ let localVideo = document.getElementById('localVideo')
 let remoteVideo = document.getElementById('remoteVideo')
 
 let btnSendMessage = document.getElementById("sendMessage")
+const transcript = document.querySelector('.transcript');
 let texts = document.getElementById("msger-chat");
 
-let roomNumber, localStream, remoteStream, rtcPeerConnection, isCaller, p;
+let roomNumber, localStream, remoteStream, rtcPeerConnection, isCaller, p, q;
 
 const iceServers = {
     'iceServer' : [
@@ -90,10 +91,20 @@ socket.on('ready',() => {
         rtcPeerConnection.addTrack(localStream.getTracks()[0],localStream)
         rtcPeerConnection.addTrack(localStream.getTracks()[1],localStream)
 
+        recognition.start();
+        
+
+        // for caption feature - creating new data channel
+        dataChannel2 = rtcPeerConnection.createDataChannel(roomNumber + "-")
+        dataChannel2.onmessage = event => { 
+            q = document.createElement('p');
+            q.innerHTML = "<strong>your friend:</strong> " + event.data
+            transcript.appendChild(q)
+        }
+
         // for sending message
         dataChannel = rtcPeerConnection.createDataChannel(roomNumber)
         dataChannel.onmessage = event => { 
-
              p = `<div class="msg left-msg">
                 <div class="msg-bubble">
                   <div class="msg-info">
@@ -146,21 +157,34 @@ socket.on('offer',(event) => {
         })
 
         rtcPeerConnection.ondatachannel = event => {
-            dataChannel = event.channel
-            dataChannel.onmessage = event => { 
+            console.log(event)
+            if(event.channel.label === roomNumber + "-"){
+                dataChannel = event.channel
+                dataChannel.onmessage = event => { 
+                    console.log("there was a message")
+                    q = document.createElement('p');
+                    q.innerHTML = "<strong>your friend:</strong> " + event.data
+                    transcript.appendChild(q)
 
-                p = `<div class="msg left-msg">
-                <div class="msg-bubble">
-                  <div class="msg-info">
-                    <div class="msg-info-name">Your Friend</div>
-                  </div>
-                  <div class="msg-text">
-                    ${event.data}
-                  </div>
-                </div>
-              </div>`
+            }
+            
+            }else{
+                dataChannel = event.channel
+                dataChannel.onmessage = event => { 
+                    p = `<div class="msg left-msg">
+                    <div class="msg-bubble">
+                    <div class="msg-info">
+                        <div class="msg-info-name">Your Friend</div>
+                    </div>
+                    <div class="msg-text">
+                        ${event.data}
+                    </div>
+                    </div>
+                </div>`
 
-              texts.innerHTML += p;
+                texts.innerHTML += p;
+            }
+            
             }
         }
     }
@@ -229,3 +253,46 @@ let toggleMic = async () => {
 
 document.getElementById('camera-btn').addEventListener('click', toggleCamera)
 document.getElementById('mic-btn').addEventListener('click', toggleMic)
+
+
+
+// adding the webspeech API so that we can use it to send and receive messages
+// https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
+
+// function sendData(){
+//     dataChannel2.send(dataChannelSend.value)
+//     let p = document.createElement('p');
+//     p.innerHTML = "<strong>you:</strong> " + dataChannelSend.value;
+//     transcript.appendChild(p);
+// }
+
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const recognition = new SpeechRecognition();
+recognition.interimResults = true;
+
+recognition.addEventListener('result', (e)=>{
+  const text = Array.from(e.results)
+    .map(result => result[0])
+    .map(result => result.transcript)
+    .join('');
+
+
+    if(dataChannel2.readyState == "open" && e.results[0].isFinal){
+        // dataChannelSend.value = text;
+        dataChannel2.send(text)
+        q = document.createElement('p');
+        q.innerHTML = "<strong>you:</strong> "+ text
+        transcript.appendChild(q);
+    }
+}
+);
+
+recognition.addEventListener('end', ()=>{
+  recognition.start();
+})
+
+recognition.onstart = function() {
+    console.log('Speech recognition service has started');
+}
+
