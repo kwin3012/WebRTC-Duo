@@ -156,6 +156,8 @@ socket.on('offer',(event) => {
             console.log('there is an error',err)
         })
 
+        recognition.start();
+
         rtcPeerConnection.ondatachannel = event => {
             console.log(event)
             if(event.channel.label === roomNumber + "-"){
@@ -243,9 +245,11 @@ let toggleMic = async () => {
     let audioTrack = localStream.getTracks().find(track => track.kind === 'audio')
 
     if(audioTrack.enabled){
+        // recognition.stop()
         audioTrack.enabled = false
         document.getElementById('mic-btn').style.backgroundColor = 'rgb(255, 80, 80)'
     }else{
+        // recognition.start();
         audioTrack.enabled = true
         document.getElementById('mic-btn').style.backgroundColor = 'rgb(179, 102, 249, .9)'
     }
