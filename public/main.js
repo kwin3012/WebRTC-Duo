@@ -16,7 +16,7 @@ let btnSendMessage = document.getElementById("sendMessage")
 const transcript = document.querySelector('.transcript');
 let texts = document.getElementById("msger-chat");
 
-let roomNumber, localStream, remoteStream, rtcPeerConnection, isCaller, p, q, dataChannel, dataChannel2;
+let roomNumber, localStream, remoteStream, rtcPeerConnection, isCaller, p, q;
 
 const iceServers = {
     'iceServer' : [
@@ -95,7 +95,7 @@ socket.on('ready',() => {
         
 
         // for caption feature - creating new data channel
-        dataChannel2 = rtcPeerConnection.createDataChannel(roomNumber + "-")
+        let dataChannel2 = rtcPeerConnection.createDataChannel(roomNumber + "-")
         dataChannel2.onmessage = event => { 
             q = document.createElement('p');
             q.innerHTML = "<strong>your friend:</strong> " + event.data
@@ -103,7 +103,7 @@ socket.on('ready',() => {
         }
 
         // for sending message
-        dataChannel = rtcPeerConnection.createDataChannel(roomNumber)
+        let dataChannel = rtcPeerConnection.createDataChannel(roomNumber)
         dataChannel.onmessage = event => { 
              p = `<div class="msg left-msg">
                 <div class="msg-bubble">
@@ -279,7 +279,7 @@ recognition.addEventListener('result', (e)=>{
     .map(result => result.transcript)
     .join('');
 
-
+    console.log(dataChannel2);
     if(dataChannel2.readyState == "open" && e.results[0].isFinal){
         // dataChannelSend.value = text;
         dataChannel2.send(text)
