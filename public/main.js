@@ -281,10 +281,10 @@ recognition.addEventListener('result', (e)=>{
 
     if(remoteStream == undefined);
     else if(e.results[0].isFinal){
-        dataChannel2.send(text)
+        dataChannel.send(text)
         p = document.createElement('p');
         p.innerHTML = "<strong>you:</strong> "+ text
-        texts.appendChild(p);
+        transcript.appendChild(p);
     }
 }
 );
