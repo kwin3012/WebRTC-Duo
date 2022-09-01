@@ -16,7 +16,7 @@ let btnSendMessage = document.getElementById("sendMessage")
 const transcript = document.querySelector('.transcript');
 let texts = document.getElementById("msger-chat");
 
-let roomNumber, localStream, remoteStream, rtcPeerConnection, isCaller, p, q;
+let roomNumber, localStream, remoteStream, rtcPeerConnection, isCaller, p, q, dataChannel, dataChannel2;
 
 const iceServers = {
     'iceServer' : [
@@ -98,7 +98,7 @@ socket.on('ready',() => {
         dataChannel2 = rtcPeerConnection.createDataChannel(roomNumber + "-")
         dataChannel2.onmessage = event => { 
             q = document.createElement('p');
-            q.innerHTML = "<strong>you :</strong> " + event.data
+            q.innerHTML = "<strong>your friend:</strong> " + event.data
             transcript.appendChild(q)
         }
 
@@ -166,9 +166,8 @@ socket.on('offer',(event) => {
                     console.log("there was a message")
                     q = document.createElement('p');
                     q.innerHTML = "<strong>your friend:</strong> " + event.data
-                    transcript.appendChild(q)
+                    transcript.appendChild(q);
             }
-            
             }else{
                 dataChannel = event.channel
                 dataChannel.onmessage = event => { 
