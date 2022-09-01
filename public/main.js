@@ -39,7 +39,7 @@ divConsultingRoom.style = 'display:block';
 
 btnSendMessage.onclick = () => {
     if(dataChannelSend.value === ''){
-        alert('please type a call name!')
+        alert('please type a message!')
     } else {
         // for sending message
         dataChannel.send(dataChannelSend.value)

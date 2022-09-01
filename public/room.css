@@ -158,4 +158,16 @@ video {
   .msger-chat {
     background-color: #fcfcfe;
   }
+
+  /* #caption-box {
+    text-align: center;
+  } */
+  .transcript{
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid black;
+    width: 30%;
+    text-align: center;
+  }
+
   
