@@ -95,7 +95,7 @@ socket.on('ready',() => {
         
 
         // for caption feature - creating new data channel
-        let dataChannel2 = rtcPeerConnection.createDataChannel(roomNumber + "-")
+        dataChannel2 = rtcPeerConnection.createDataChannel(roomNumber + "-")
         dataChannel2.onmessage = event => { 
             q = document.createElement('p');
             q.innerHTML = "<strong>your friend:</strong> " + event.data
@@ -103,7 +103,7 @@ socket.on('ready',() => {
         }
 
         // for sending message
-        let dataChannel = rtcPeerConnection.createDataChannel(roomNumber)
+        dataChannel = rtcPeerConnection.createDataChannel(roomNumber)
         dataChannel.onmessage = event => { 
              p = `<div class="msg left-msg">
                 <div class="msg-bubble">
@@ -279,13 +279,12 @@ recognition.addEventListener('result', (e)=>{
     .map(result => result.transcript)
     .join('');
 
-    console.log(dataChannel2);
-    if(dataChannel2.readyState == "open" && e.results[0].isFinal){
-        // dataChannelSend.value = text;
+    if(remoteStream == undefined);
+    else if(e.results[0].isFinal){
         dataChannel2.send(text)
-        q = document.createElement('p');
-        q.innerHTML = "<strong>you:</strong> "+ text
-        transcript.appendChild(q);
+        p = document.createElement('p');
+        p.innerHTML = "<strong>you:</strong> "+ text
+        texts.appendChild(p);
     }
 }
 );
