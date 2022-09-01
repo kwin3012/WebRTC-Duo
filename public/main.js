@@ -161,8 +161,8 @@ socket.on('offer',(event) => {
         rtcPeerConnection.ondatachannel = event => {
             console.log(event)
             if(event.channel.label === roomNumber + "-"){
-                dataChannel = event.channel
-                dataChannel.onmessage = event => { 
+                dataChannel2 = event.channel
+                dataChannel2.onmessage = event => { 
                     console.log("there was a message")
                     q = document.createElement('p');
                     q.innerHTML = "<strong>your friend:</strong> " + event.data
@@ -281,7 +281,7 @@ recognition.addEventListener('result', (e)=>{
 
     if(remoteStream == undefined);
     else if(e.results[0].isFinal){
-        dataChannel.send(text)
+        dataChannel2.send(text)
         p = document.createElement('p');
         p.innerHTML = "<strong>you:</strong> "+ text
         transcript.appendChild(p);
