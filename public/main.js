@@ -98,7 +98,7 @@ socket.on('ready',() => {
         dataChannel2 = rtcPeerConnection.createDataChannel(roomNumber + "-")
         dataChannel2.onmessage = event => { 
             q = document.createElement('p');
-            q.innerHTML = "<strong>your friend:</strong> " + event.data
+            q.innerHTML = "<strong>you :</strong> " + event.data
             transcript.appendChild(q)
         }
 
@@ -167,7 +167,6 @@ socket.on('offer',(event) => {
                     q = document.createElement('p');
                     q.innerHTML = "<strong>your friend:</strong> " + event.data
                     transcript.appendChild(q)
-
             }
             
             }else{
