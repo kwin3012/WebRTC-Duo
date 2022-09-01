@@ -239,15 +239,18 @@ let toggleCamera = async () => {
     }
 }
 
+let s = "";
 let toggleMic = async () => {
     let audioTrack = localStream.getTracks().find(track => track.kind === 'audio')
 
     if(audioTrack.enabled){
         // recognition.stop()
+        s = "off";
         audioTrack.enabled = false
         document.getElementById('mic-btn').style.backgroundColor = 'rgb(255, 80, 80)'
     }else{
         // recognition.start();
+        s = "on";
         audioTrack.enabled = true
         document.getElementById('mic-btn').style.backgroundColor = 'rgb(179, 102, 249, .9)'
     }
@@ -279,13 +282,16 @@ recognition.addEventListener('result', (e)=>{
     .map(result => result.transcript)
     .join('');
 
-    if(remoteStream == undefined);
-    else if(e.results[0].isFinal){
-        dataChannel2.send(text)
-        p = document.createElement('p');
-        p.innerHTML = "<strong>you:</strong> "+ text
-        transcript.appendChild(p);
+    if(s == "on"){
+        if(remoteStream == undefined);
+        else if(e.results[0].isFinal){
+            dataChannel2.send(text)
+            p = document.createElement('p');
+            p.innerHTML = "<strong>you:</strong> "+ text
+            transcript.appendChild(p);
     }
+    }
+    
 }
 );
 
